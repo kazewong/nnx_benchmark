@@ -1,5 +1,5 @@
 [project]
-name = "pythonpackagetemplate"
+name = "nnx_benchmark"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
@@ -24,11 +24,11 @@ docs = [
 
 [dependency-groups]
 dev = [
-    "pythonpackagetemplate",
+    "nnx_benchmark",
 ]
 
 [tool.uv.sources]
-pythonpackagetemplate = { workspace = true }
+nnx_benchmark = { workspace = true }
 
 
 [build-system]

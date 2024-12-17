@@ -1,7 +1,7 @@
-site_name: pythonpackagetemplate
+site_name: nnx_benchmark
 site_description: A template for creating python package
 site_author: Kaze W. K. Wong
-repo_url: https://github.com/kazewong/pythonpackagetemplate
+repo_url: https://github.com/kazewong/nnx_benchmark
 repo_name: kazewong/packpackagetemplate
 
 theme:

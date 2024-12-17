@@ -1,8 +1,5 @@
-# PythonPackageTemplate
-This is a template I use for creating python packages.
+# NNX_benchmark
 
-To change adapt this template for your package, here are the steps you should go through
+> [!This repo and the jax ecosystem itself are evolving rapidly. As I will try to keep this repo up to date, there is no guarantee for this to perform the same across all platforms.]
 
-- [ ] Change the project name in pyproject.toml
-- [ ] Change the folder packagename to the name of your pacakge
-- [ ]
+This repo contains a bunch of standalone neural networks for benchmarking purposes. Each benchmark suite will list its target systems and expected performance. 

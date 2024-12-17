@@ -1055,7 +1055,7 @@ wheels = [
 ]
 
 [[package]]
-name = "pythonpackagetemplate"
+name = "nnx_benchmark"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
@@ -1092,7 +1092,7 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-dev = [{ name = "pythonpackagetemplate", editable = "." }]
+dev = [{ name = "nnx_benchmark", editable = "." }]
 
 [[package]]
 name = "pywin32"

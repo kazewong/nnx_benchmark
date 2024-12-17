@@ -1,5 +1,5 @@
 def main():
-    print("Hello from pythonpackagetemplate!")
+    print("Hello from nnx_benchmark!")
 
 
 if __name__ == "__main__":
