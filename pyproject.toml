@@ -1,0 +1,46 @@
+[project]
+name = "pythonpackagetemplate"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pre-commit>=4.0.1",
+    "pyright>=1.1.389",
+    "pytest>=8.3.3",
+    "ruff>=0.8.0",
+]
+
+[project.optional-dependencies]
+docs = [
+    "mkdocs-gen-files",
+    "mkdocs-jupyter",
+    "mkdocs-literate-nav",
+    "mkdocs-material",
+    "mkdocs",
+    "mkdocstrings[python]",
+    "pymdown-extensions",
+]
+
+[dependency-groups]
+dev = [
+    "pythonpackagetemplate",
+]
+
+[tool.uv.sources]
+pythonpackagetemplate = { workspace = true }
+
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
+[tool.pyright]
+include = [
+    "src",
+    "tests",
+]
+exclude = [
+    "docs"
+]
