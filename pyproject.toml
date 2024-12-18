@@ -5,13 +5,15 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "flax>=0.10.2",
     "grain>=0.2.2",
+    "ipython>=8.29.0",
+    "jaxtyping>=0.2.36",
     "pre-commit>=4.0.1",
     "pyright>=1.1.389",
     "pytest>=8.3.3",
+    "requests>=2.32.3",
     "ruff>=0.8.0",
-    "tensorboard-plugin-profile>=2.18.0",
-    "tensorflow>=2.18.0",
 ]
 
 [project.optional-dependencies]
