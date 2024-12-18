@@ -14,6 +14,8 @@ dependencies = [
     "pytest>=8.3.3",
     "requests>=2.32.3",
     "ruff>=0.8.0",
+    "tensorboard-plugin-profile>=2.18.0",
+    "tensorflow>=2.18.0",
 ]
 
 [project.optional-dependencies]
