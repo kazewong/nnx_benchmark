@@ -61,31 +61,32 @@ class VisionTransformer(nnx.Module):
         num_heads: int,  # Number of heads to use in the Multi-Head Attention block
         num_channels: int,  # Number of channels of the input (3 for RGB)
         num_layers: int,  # Number of layers to use in the Transformer
-        num_classes: int,  # Number of classes to predict
         patch_size: int,  # Number of pixels that the patches have per dimension
         num_patches: int,  # Maximum number of patches an image can have
         dropout_prob: float = 0.0,  # Amount of dropout to apply in the feed-forward network
     ):
         self.patch_size = patch_size
+        self.num_patches = num_patches
 
         self.linear_projector = nnx.Linear(
             patch_size * patch_size * num_channels, embed_dim, rngs=nnx.Rngs(rng_seed)
         )
-        self.attention_blocks = [
-            AttentionBlock(rng_seed, embed_dim, hidden_dim, num_heads)
+        self.attention_blocks = nnx.Sequential(*[
+            AttentionBlock(rng_seed + i + 1, embed_dim, hidden_dim, embed_dim, num_heads)
             for i in range(num_layers)
-        ]
-        self.dropout_block = nnx.Dropout(dropout_prob, rngs=rng)
-        self.feedforward_head
-        self.positional_embedding = nnx.E
+        ])
+        self.dropout_block = nnx.Dropout(dropout_prob, rngs=nnx.Rngs(rng_seed + num_layers + 1))
+        self.positional_embedding = nnx.Embed(num_embeddings=num_patches, features=embed_dim, rngs=nnx.Rngs(rng_seed + num_layers + 2))
 
     def __call__(
         self, images: Int[Array, "N C H W"], inference: bool = False
-    ) -> Int[Array, "N C"]:
+    ) -> Float[Array, "N C"]:
         x = self.image_to_patch(images)
         x = nnx.vmap(self.linear_projector)(x)
         x = x + self.positional_embedding(x)
         x = self.dropout_block(x)
+        x = self.attention_blocks(x)
+        return x
 
     def image_to_patch(
         self, image: Int[Array, " C H W"]
