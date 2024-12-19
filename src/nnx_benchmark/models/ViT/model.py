@@ -32,13 +32,26 @@ class AttentionBlock(nnx.Module):
             num_features=embed_dim, rngs=nnx.Rngs(rng_seed + 2)
         )
         self.dropout = nnx.Dropout(dropout_rate, rngs=nnx.Rngs(rng_seed + 3))
-        self.linear_block 
+        self.linear_block = nnx.Sequential(
+            nnx.Linear(embed_dim, hidden_dim, rngs=nnx.Rngs(rng_seed + 4)),
+            nnx.gelu,
+            nnx.Dropout(dropout_rate, rngs=nnx.Rngs(rng_seed + 5)),
+            nnx.Linear(hidden_dim, embed_dim, rngs=nnx.Rngs(rng_seed + 6)),
+        )
 
-    def __call__(self, *args, **kwds):
-        return super().__call__(*args, **kwds)
+    def __call__(self, x: Float[Array, "n_token n_embed"]) -> Float[Array, "n_token n_embed"]:
+        norm_x = self.layer_norm1(x)
+        attention_x = self.attention(norm_x)
+        x = x + self.dropout(attention_x)
+        linear_out = self.layer_norm2(x)
+        return x + self.dropout(self.linear_block(linear_out))
 
 
 class VisionTransformer(nnx.Module):
+
+    """
+    I ommit the class token for generality. It can easily be added back by adding an extra token to the input.
+    """
 
     def __init__(
         self,
