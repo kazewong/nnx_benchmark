@@ -406,6 +406,15 @@ wheels = [
 ]
 
 [[package]]
+name = "fire"
+version = "0.7.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "termcolor" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/6b/b6/82c7e601d6d3c3278c40b7bd35e17e82aa227f050aa9f66cb7b7fce29471/fire-0.7.0.tar.gz", hash = "sha256:961550f07936eaf65ad1dc8360f2b2bf8408fad46abbfa4d2a3794f8d2a95cdf", size = 87189 }
+
+[[package]]
 name = "flatbuffers"
 version = "24.3.25"
 source = { registry = "https://pypi.org/simple" }
@@ -1296,6 +1305,7 @@ name = "nnx-benchmark"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "fire" },
     { name = "flax" },
     { name = "grain" },
     { name = "ipython" },
@@ -1322,6 +1332,7 @@ docs = [
 
 [package.metadata]
 requires-dist = [
+    { name = "fire", specifier = ">=0.7.0" },
     { name = "flax", specifier = ">=0.10.2" },
     { name = "grain", specifier = ">=0.2.2" },
     { name = "ipython", specifier = ">=8.29.0" },
