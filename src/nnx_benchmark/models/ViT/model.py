@@ -1,6 +1,7 @@
 import jax
+import jax.numpy as jnp
 from flax import nnx
-from jaxtyping import Int, Float, Array, PRNGKeyArray
+from jaxtyping import Array, Float, Int, PRNGKeyArray
 
 
 class AttentionBlock(nnx.Module):
@@ -22,6 +23,7 @@ class AttentionBlock(nnx.Module):
             in_features=embed_dim,
             qkv_features=qkv_dim,
             out_features=embed_dim,
+            decode=False,
             dropout_rate=dropout_rate,
             rngs=nnx.Rngs(rng_seed),
         )
@@ -79,16 +81,19 @@ class VisionTransformer(nnx.Module):
         self.positional_embedding = nnx.Embed(num_embeddings=num_patches, features=embed_dim, rngs=nnx.Rngs(rng_seed + num_layers + 2))
 
     def __call__(
-        self, images: Int[Array, "N C H W"], inference: bool = False
-    ) -> Float[Array, "N C"]:
+        self, images: Int[Array, "C H W"], inference: bool = False
+    ) -> Float[Array, "C"]:
         x = self.image_to_patch(images)
         x = nnx.vmap(self.linear_projector)(x)
-        x = x + self.positional_embedding(x)
+        x = x + self.positional_embedding(jnp.arange(x.shape[0]))
         x = self.dropout_block(x)
         x = self.attention_blocks(x)
         return x
 
     def image_to_patch(
         self, image: Int[Array, " C H W"]
-    ) -> Int[Array, "N H*W/P/P P*P*C"]:
-        raise NotImplementedError
+    ) -> Int[Array, "H*W/P/P P*P*C"]:
+        C, H, W = image.shape
+        x = image.reshape(C, H//self.patch_size, self.patch_size, W//self.patch_size, self.patch_size)
+        x = x.transpose(1, 3, 0, 2, 4)
+        return x.reshape(-1, C*self.patch_size*self.patch_size)
